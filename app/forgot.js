@@ -5,13 +5,18 @@ import { useRouter } from "expo-router";
 export default function ForgotPassword() {
   const router = useRouter();
 
+  const handleReset = () => {
+  // aqui você pode validar depois se quiser
+  router.replace("/login");
+};
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image
-          source={{ uri: "https://cdn-icons-png.flaticon.com/512/4712/4712109.png" }}
-          style={styles.logo}
-        />
+            <Image
+         source={require("../assets/odontologia.png")}
+         style={styles.logo}
+       />
       </View>
 
       <Text style={styles.title}>Recuperar Senha</Text>
@@ -28,9 +33,9 @@ export default function ForgotPassword() {
       <Text style={styles.label}>Confirme a senha</Text>
       <TextInput style={styles.input} secureTextEntry placeholder="Repita a nova senha" />
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={handleReset}>
+  <Text style={styles.buttonText}>Entrar</Text>
+</TouchableOpacity>
 
       <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 20 }}>
         <Text style={{ textAlign: 'center', color: '#666' }}>Voltar ao Login</Text>
