@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Alert,
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -19,8 +20,6 @@ export default function Register() {
   const [confirmarSenha, setConfirmarSenha] = useState("");
 
   const handleRegister = async () => {
-    console.log("CLICOU CADASTRAR");
-
     if (!nome || !email || !senha || !confirmarSenha) {
       Alert.alert("Erro", "Preencha todos os campos");
       return;
@@ -31,32 +30,38 @@ export default function Register() {
       return;
     }
 
-    const user = {
-      nome,
-      email,
-      senha,
-    };
+    const user = { nome, email, senha };
 
     try {
       await AsyncStorage.setItem("user", JSON.stringify(user));
-
-      console.log("SALVO:", user);
-
       Alert.alert("Sucesso", "Cadastro realizado!");
-
       router.replace("/login");
     } catch (error) {
-      console.log(error);
       Alert.alert("Erro", "Erro ao salvar usuário");
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Criar conta</Text>
+      
+      {/* LOGO */}
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../assets/odontologia.png")}
+          style={styles.logo}
+        />
+        <Text style={styles.appName}>OdontoCare</Text>
+      </View>
 
+      {/* TEXTO */}
+      <Text style={styles.title}>Criar conta</Text>
+      <Text style={styles.subtitle}>
+        Informe seus dados para acessar o sistema
+      </Text>
+
+      {/* INPUTS */}
       <TextInput
-        placeholder="Nome"
+        placeholder="Nome Completo"
         style={styles.input}
         value={nome}
         onChangeText={setNome}
@@ -85,10 +90,12 @@ export default function Register() {
         onChangeText={setConfirmarSenha}
       />
 
+      {/* BOTÃO */}
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
 
+      {/* LINK */}
       <TouchableOpacity onPress={() => router.replace("/login")}>
         <Text style={styles.link}>Já tenho conta</Text>
       </TouchableOpacity>
@@ -99,36 +106,65 @@ export default function Register() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
     padding: 25,
     justifyContent: "center",
-    backgroundColor: "#fff",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
+
+  logoContainer: {
+    alignItems: "center",
     marginBottom: 20,
+  },
+
+  logo: {
+    width: 90,
+    height: 90,
+    marginBottom: 5,
+  },
+
+  appName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#2563eb",
+  },
+
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
     textAlign: "center",
   },
+
+  subtitle: {
+    textAlign: "center",
+    color: "#666",
+    marginBottom: 25,
+  },
+
   input: {
-    backgroundColor: "#eee",
-    padding: 12,
-    borderRadius: 10,
+    backgroundColor: "#F3F4F6",
+    padding: 14,
+    borderRadius: 12,
     marginBottom: 10,
   },
+
   button: {
     backgroundColor: "#1ec3ec",
-    padding: 15,
-    borderRadius: 10,
+    padding: 16,
+    borderRadius: 12,
     marginTop: 10,
   },
+
   buttonText: {
     color: "#fff",
     textAlign: "center",
     fontWeight: "bold",
+    fontSize: 16,
   },
+
   link: {
     textAlign: "center",
     marginTop: 15,
-    color: "#1ec3ec",
+    color: "#20b2f7",
+    fontWeight: "500",
   },
 });

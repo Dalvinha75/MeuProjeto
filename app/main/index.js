@@ -11,9 +11,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const [menuOpen, setMenuOpen] = useState(false);
+
 export default function Dashboard() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("user");
@@ -74,12 +77,12 @@ export default function Dashboard() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.menuItemRow}
-              onPress={async () => {
+             style={styles.menuItemRow}
+               onPress={() => {
                 setMenuOpen(false);
-                await handleLogout();
-              }}
-            >
+                router.push("/main/agenda");
+  }}
+>
               <Ionicons name="log-out-outline" size={20} color="#ff4d4d" />
               <Text style={[styles.menuItem, { color: "#ff4d4d" }]}>
                 Sair
@@ -169,6 +172,13 @@ export default function Dashboard() {
             <Ionicons name="logo-usd" size={28} color="#2563eb" />
             <Text>Financeiro</Text>
           </View>
+
+          <View style={styles.action}>
+      <TouchableOpacity onPress={() => router.push("/main/agenda")}>
+      <Ionicons name="calendar-outline" size={28} color="#2563eb" />
+      <Text>Agenda</Text>
+      </TouchableOpacity>
+        </View>
         </View>
       </ScrollView>
 
