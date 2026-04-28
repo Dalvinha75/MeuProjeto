@@ -8,12 +8,20 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Agenda() {
   const [mes, setMes] = useState(1);
   const [ano, setAno] = useState(2026);
   const [diaSelecionado, setDiaSelecionado] = useState(3);
   const [menuOpen, setMenuOpen] = useState(false); // ✅ FALTAVA ISSO
+  const router = useRouter();
+
+  const handleLogout = async () => {
+  await AsyncStorage.removeItem("user");
+  router.replace("/login");
+};
 
   const meses = [
     "Janeiro","Fevereiro","Março","Abril",
@@ -71,6 +79,21 @@ export default function Agenda() {
               <Ionicons name="logo-usd" size={20} color="#fff" />
               <Text style={styles.menuItem}>Financeiro</Text>
             </TouchableOpacity>
+
+            <View style={{ marginTop: 40 }} />
+
+            <TouchableOpacity
+                style={styles.menuItemRow}
+                onPress={async () => {
+                    setMenuOpen(false);
+                    await handleLogout();
+  }}
+>
+  <Ionicons name="log-out-outline" size={20} color="#ff4d4d" />
+  <Text style={[styles.menuItem, { color: "#ff4d4d" }]}>
+    Sair
+  </Text>
+</TouchableOpacity>
           </View>
         </>
       )}
@@ -179,10 +202,10 @@ export default function Agenda() {
       {/* BOTÃO FAB */}
       <TouchableOpacity
         style={styles.fab}
-        onPress={() => alert("Nova consulta")}
-      >
+        onPress={() => router.push("/main/agendar")}
+>
         <Ionicons name="add" size={30} color="#fff" />
-      </TouchableOpacity>
+    </TouchableOpacity>
 
     </SafeAreaView>
   );
