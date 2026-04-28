@@ -48,6 +48,9 @@ export default function Agenda() {
 
   const consultas = consultasPorDia[diaSelecionado] || [];
 
+  const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+  const primeiroDiaSemana = new Date(ano, mes, 1).getDay();
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -113,57 +116,67 @@ export default function Agenda() {
         <Text style={styles.title}>Agenda</Text>
 
         {/* CALENDÁRIO */}
-        <View style={styles.calendar}>
-          <View style={styles.calendarHeader}>
-            <TouchableOpacity onPress={() => mudarMes(-1)}>
-              <Text>{"<"}</Text>
-            </TouchableOpacity>
+    <View style={styles.calendar}>
+  <View style={styles.calendarHeader}>
+    <TouchableOpacity onPress={() => mudarMes(-1)}>
+      <Text>{"<"}</Text>
+    </TouchableOpacity>
 
-            <Text style={styles.month}>
-              {meses[mes]} {ano}
+    <Text style={styles.month}>
+      {meses[mes]} {ano}
+    </Text>
+
+    <TouchableOpacity onPress={() => mudarMes(1)}>
+      <Text>{">"}</Text>
+    </TouchableOpacity>
+  </View>
+
+  {/* DIAS DA SEMANA */}
+  <View style={styles.week}>
+    {["D","S","T","Q","Q","S","S"].map((d,i) => (
+      <Text key={i} style={styles.day}>{d}</Text>
+    ))}
+  </View>
+
+  {/* GRID */}
+  <View style={styles.daysGrid}>
+    
+    {/* ESPAÇOS */}
+    {[...Array(primeiroDiaSemana)].map((_, i) => (
+      <View key={"empty-" + i} style={styles.dayContainer} />
+    ))}
+
+    {/* DIAS */}
+    {[...Array(diasNoMes)].map((_, i) => {
+      const dia = i + 1;
+
+      return (
+        <TouchableOpacity
+          key={dia}
+          style={styles.dayContainer}
+          onPress={() => setDiaSelecionado(dia)}
+        >
+          <View
+            style={[
+              styles.dayCircle,
+              diaSelecionado === dia && styles.selectedDay,
+            ]}
+          >
+            <Text
+              style={[
+                styles.dayText,
+                diaSelecionado === dia && { color: "#fff" },
+              ]}
+            >
+              {dia}
             </Text>
-
-            <TouchableOpacity onPress={() => mudarMes(1)}>
-              <Text>{">"}</Text>
-            </TouchableOpacity>
           </View>
-
-          <View style={styles.week}>
-            {["D","S","T","Q","Q","S","S"].map((d,i) => (
-              <Text key={i} style={styles.day}>{d}</Text>
-            ))}
-          </View>
-
-          <View style={styles.daysGrid}>
-            {[...Array(30)].map((_, i) => {
-              const dia = i + 1;
-
-              return (
-                <TouchableOpacity
-                  key={i}
-                  style={styles.dayContainer}
-                  onPress={() => setDiaSelecionado(dia)}
-                >
-                  <View
-                    style={[
-                      styles.dayCircle,
-                      diaSelecionado === dia && styles.selectedDay,
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.dayText,
-                        diaSelecionado === dia && { color: "#fff" },
-                      ]}
-                    >
-                      {dia}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </View>
+        </TouchableOpacity>
+      );
+    })}
+  </View>
+</View>
+          
 
         {/* CONSULTAS */}
         <View style={styles.card}>
