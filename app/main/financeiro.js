@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import {
   SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Dashboard() {
+export default function Financeiro() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -19,13 +19,6 @@ export default function Dashboard() {
     await AsyncStorage.removeItem("user");
     router.replace("/login");
   };
-
-  const consultas = [
-    { id: "1", paciente: "Carlos Oliveira", hora: "9:00", status: "Confirmado" },
-    { id: "2", paciente: "Letícia Amorim", hora: "10:00", status: "Confirmado" },
-    { id: "3", paciente: "Kátia Azevedo", hora: "14:00", status: "Pendente" },
-    { id: "4", paciente: "Danilo Dantas", hora: "15:00", status: "Confirmado" },
-  ];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,15 +48,6 @@ export default function Dashboard() {
               onPress={() => {
                 setMenuOpen(false);
                 router.push("/main/agenda");
-              }}>
-                
-              </TouchableOpacity>
-
-               <TouchableOpacity
-              style={styles.menuItemRow}
-              onPress={() => {
-                setMenuOpen(false);
-                router.push("/main/financeiro");
               }}
             >
               <Ionicons name="calendar-outline" size={20} color="#fff" />
@@ -84,7 +68,10 @@ export default function Dashboard() {
 
             <TouchableOpacity
               style={styles.menuItemRow}
-              onPress={handleLogout}
+              onPress={async () => {
+                setMenuOpen(false);
+                await handleLogout();
+              }}
             >
               <Ionicons name="log-out-outline" size={20} color="#ff4d4d" />
               <Text style={[styles.menuItem, { color: "#ff4d4d" }]}>
@@ -98,191 +85,170 @@ export default function Dashboard() {
       {/* HEADER */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => setMenuOpen(true)}>
-          <Ionicons name="menu" size={28} color="#fff" />
+          <Ionicons name="menu" size={26} color="#fff" />
         </TouchableOpacity>
 
-        <Text style={styles.appName}>OdontoCare</Text>
+        <Text style={styles.headerTitle}>OdontoCare</Text>
 
-        <Ionicons name="person-circle-outline" size={28} color="#fff" />
+        <Ionicons name="person-circle-outline" size={26} color="#fff" />
       </View>
 
       {/* CONTEÚDO */}
       <ScrollView style={styles.content}>
-        <Text style={styles.title}>Dashboard</Text>
+        <Text style={styles.title}>Financeiro</Text>
 
-        <Text style={styles.section}>Resumo</Text>
-
+        {/* RESUMO */}
         <View style={styles.row}>
-          <View style={styles.card}>
-            <Text style={styles.number}>2</Text>
-            <Text>Consultas hoje</Text>
+          <View style={[styles.card, { backgroundColor: "#d1fae5" }]}>
+            <Text style={styles.valor}>R$ 1.150</Text>
+            <Text>Recebidos no mês</Text>
           </View>
 
-          <View style={styles.card}>
-            <Text style={styles.number}>10</Text>
-            <Text>Pacientes</Text>
+          <View style={[styles.card, { backgroundColor: "#fef3c7" }]}>
+            <Text style={styles.valor}>2</Text>
+            <Text>Orçamentos criados</Text>
           </View>
         </View>
 
+        {/* ORÇAMENTOS */}
         <View style={styles.box}>
-          <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-            Próximas consultas
+          <Text style={styles.boxTitle}>Orçamentos</Text>
+
+          <View style={styles.item}>
+            <View>
+              <Text style={styles.nome}>Carlos Oliveira</Text>
+              <Text style={styles.sub}>1x - Faceta</Text>
+            </View>
+            <Text>R$ 500</Text>
+            <View style={styles.pendente}>
+              <Text style={styles.statusText}>Pendente</Text>
+            </View>
+          </View>
+
+          <View style={styles.item}>
+            <View>
+              <Text style={styles.nome}>Ana Oliveira</Text>
+              <Text style={styles.sub}>3x - Restauração</Text>
+            </View>
+            <Text>R$ 450</Text>
+            <View style={styles.pendente}>
+              <Text style={styles.statusText}>Pendente</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* PAGAMENTOS */}
+        <View style={styles.box}>
+          <Text style={styles.boxTitle}>Pagamentos Recentes</Text>
+
+          <Text style={styles.pagamento}>
+            R$ 250,00 - Parcela 1{"\n"}
+            12/02/2026 - Ricardo Novaes (Faceta) • PIX
           </Text>
 
-          {consultas.map((c) => (
-            <View key={c.id} style={styles.item}>
-              <View>
-                <Text style={{ fontWeight: "bold" }}>{c.paciente}</Text>
-                <Text style={{ color: "#777" }}>{c.hora}</Text>
-              </View>
-
-              <View
-                style={[
-                  styles.badge,
-                  {
-                    backgroundColor:
-                      c.status === "Confirmado" ? "#4CAF50" : "#FFA726",
-                  },
-                ]}
-              >
-                <Text style={{ color: "#fff", fontSize: 12 }}>
-                  {c.status}
-                </Text>
-              </View>
-            </View>
-          ))}
-        </View>
-
-        {/* AÇÕES */}
-        <Text style={styles.section}>Ações Rápidas</Text>
-
-        <View style={styles.actions}>
-          <TouchableOpacity
-            style={styles.action}
-            onPress={() => router.push("/main/agenda")}
-          >
-            <Ionicons name="calendar-outline" size={28} color="#2563eb" />
-            <Text>Agenda</Text>
-          </TouchableOpacity>
-
-          <View style={styles.action}>
-            <Ionicons name="people-outline" size={28} color="#2563eb" />
-            <Text>Pacientes</Text>
-          </View>
-
-          <View style={styles.action}>
-            <Ionicons name="person-add-outline" size={28} color="#2563eb" />
-            <Text>Cadastro</Text>
-          </View>
-
-          <View style={styles.action}>
-            <Ionicons name="logo-usd" size={28} color="#2563eb" />
-            <Text>Financeiro</Text>
-          </View>
+          <Text style={styles.pagamento}>
+            R$ 250,00 - Parcela 1{"\n"}
+            12/02/2026 - Ricardo Novaes (Faceta)
+          </Text>
         </View>
       </ScrollView>
 
       {/* RODAPÉ */}
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => router.push("/main")}>
-          <Ionicons name="home-outline" size={24} color="#2563eb" />
+          <Ionicons name="home-outline" size={24} color="#9ca3af" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => router.push("/main/agenda")}>
           <Ionicons name="calendar-outline" size={24} color="#9ca3af" />
         </TouchableOpacity>
 
-        <Ionicons name="people-outline" size={24} color="#9ca3af" />
-        <Ionicons name="logo-usd" size={24} color="#9ca3af" />
+        <TouchableOpacity onPress={() => router.push("/main/pacientes")}>
+          <Ionicons name="people-outline" size={24} color="#9ca3af" />
+        </TouchableOpacity>
 
-        
+        <TouchableOpacity onPress={() => router.push("/main/financeiro")}>
+          <Ionicons name="logo-usd" size={24} color="#2563eb" />
+        </TouchableOpacity>
       </View>
+
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f3f4f6" },
 
   header: {
-    backgroundColor: "#2563eb",
-    height: 100,
+    backgroundColor: "#2f80b7",
+    height: 90,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 20,
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
   },
 
-  appName: {
+  headerTitle: {
     color: "#fff",
-    fontSize: 18,
     fontWeight: "bold",
+    fontSize: 18,
   },
 
   content: { padding: 20 },
 
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-  },
-
-  section: {
-    marginTop: 15,
-    fontWeight: "600",
-  },
+  title: { fontSize: 22, fontWeight: "bold", marginBottom: 15 },
 
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 15,
   },
 
   card: {
     width: "48%",
-    backgroundColor: "#e5e7eb",
     padding: 15,
     borderRadius: 12,
-    marginTop: 10,
   },
 
-  number: {
-    fontSize: 22,
-    fontWeight: "bold",
-  },
+  valor: { fontSize: 18, fontWeight: "bold" },
 
   box: {
     backgroundColor: "#fff",
     padding: 15,
-    borderRadius: 15,
-    marginTop: 15,
+    borderRadius: 12,
+    marginBottom: 15,
+  },
+
+  boxTitle: {
+    fontWeight: "bold",
+    marginBottom: 10,
   },
 
   item: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
 
-  badge: {
+  nome: { fontWeight: "bold" },
+
+  sub: { color: "#777", fontSize: 12 },
+
+  pendente: {
+    backgroundColor: "#fb923c",
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 10,
   },
 
-  actions: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 15,
-    marginTop: 10,
-  },
+  statusText: { color: "#fff", fontSize: 12 },
 
-  action: {
-    width: "48%",
-    alignItems: "center",
-    marginBottom: 15,
+  pagamento: {
+    marginBottom: 10,
+    color: "#374151",
   },
 
   footer: {

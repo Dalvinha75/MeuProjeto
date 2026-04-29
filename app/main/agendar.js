@@ -15,6 +15,26 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Agendar() {
   const router = useRouter();
 
+  const [mes, setMes] = useState(1);
+const [ano, setAno] = useState(2026);
+const [diaSelecionado, setDiaSelecionado] = useState(3);
+
+const meses = [
+  "Janeiro","Fevereiro","Março","Abril",
+  "Maio","Junho","Julho","Agosto",
+  "Setembro","Outubro","Novembro","Dezembro"
+];
+
+const mudarMes = (direcao) => {
+  let novoMes = mes + direcao;
+  if (novoMes < 0) novoMes = 11;
+  if (novoMes > 11) novoMes = 0;
+  setMes(novoMes);
+};
+
+const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+const primeiroDiaSemana = new Date(ano, mes, 1).getDay();
+
   const handleLogout = async () => {
   await AsyncStorage.removeItem("user");
   router.replace("/login");
@@ -155,11 +175,58 @@ export default function Agendar() {
       <ScrollView style={styles.content}>
         <Text style={styles.title}>Agendar consulta</Text>
 
-        {/* CALENDÁRIO */}
-        <View style={styles.card}>
-          <Text style={styles.label}>Data</Text>
-          <Text style={{ textAlign: "center" }}>Fevereiro 2026</Text>
+       
+      
+  {/* HEADER DO CALENDÁRIO */}
+  <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10 }}>
+    <TouchableOpacity onPress={() => mudarMes(-1)}>
+      <Text>{"<"}</Text>
+    </TouchableOpacity>
+
+    <Text style={{ fontWeight: "bold" }}>
+      {meses[mes]} {ano}
+    </Text>
+
+    <TouchableOpacity onPress={() => mudarMes(1)}>
+      <Text>{">"}</Text>
+    </TouchableOpacity>
+  </View>
+
+  {/* DIAS DA SEMANA */}
+  <View style={styles.daysGrid}>
+  {[...Array(primeiroDiaSemana)].map((_, i) => (
+    <View key={"empty-" + i} style={styles.dayContainer} />
+  ))}
+
+  {[...Array(diasNoMes)].map((_, i) => {
+    const dia = i + 1;
+
+    return (
+      <TouchableOpacity
+        key={dia}
+        style={styles.dayContainer}
+        onPress={() => setDiaSelecionado(dia)}
+      >
+        <View
+          style={[
+            styles.dayCircle,
+            diaSelecionado === dia && styles.selectedDay,
+          ]}
+        >
+          <Text
+            style={[
+              styles.dayText,
+              diaSelecionado === dia && styles.selectedDayText,
+            ]}
+          >
+            {dia}
+          </Text>
         </View>
+      </TouchableOpacity>
+    );
+  })}
+</View>
+
 
         {/* PACIENTE */}
         <View style={styles.card}>
@@ -275,6 +342,40 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
   },
+
+  daysGrid: {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  marginTop: 8,
+},
+
+dayContainer: {
+  width: "14.2%",
+  alignItems: "center",
+  marginVertical: 4,
+},
+
+dayCircle: {
+  width: 34,
+  height: 34,
+  borderRadius: 17,
+  justifyContent: "center",
+  alignItems: "center",
+},
+
+dayText: {
+  color: "#333",
+  fontSize: 13,
+},
+
+selectedDay: {
+  backgroundColor: "#2f80b7",
+},
+
+selectedDayText: {
+  color: "#fff",
+  fontWeight: "bold",
+},
 
   headerTitle: {
     color: "#fff",
