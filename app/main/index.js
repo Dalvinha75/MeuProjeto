@@ -167,29 +167,40 @@ export default function Dashboard() {
         <Text style={styles.section}>Ações Rápidas</Text>
 
         <View style={styles.actions}>
-          <TouchableOpacity
-            style={styles.action}
-            onPress={() => router.push("/main/agenda")}
-          >
-            <Ionicons name="calendar-outline" size={28} color="#2563eb" />
-            <Text>Agenda</Text>
-          </TouchableOpacity>
 
-          <View style={styles.action}>
-            <Ionicons name="people-outline" size={28} color="#2563eb" />
-            <Text>Pacientes</Text>
-          </View>
+  <TouchableOpacity
+    style={styles.action}
+    onPress={() => router.push("/main/agenda")}
+  >
+    <Ionicons name="calendar-outline" size={28} color="#2563eb" />
+    <Text>Agenda</Text>
+  </TouchableOpacity>
 
-          <View style={styles.action}>
-            <Ionicons name="person-add-outline" size={28} color="#2563eb" />
-            <Text>Cadastro</Text>
-          </View>
+  <TouchableOpacity
+    style={styles.action}
+    onPress={() => alert("Pacientes ainda não criado")}
+  >
+    <Ionicons name="people-outline" size={28} color="#2563eb" />
+    <Text>Pacientes</Text>
+  </TouchableOpacity>
 
-          <View style={styles.action}>
-            <Ionicons name="logo-usd" size={28} color="#2563eb" />
-            <Text>Financeiro</Text>
-          </View>
-        </View>
+  <TouchableOpacity
+    style={styles.action}
+    onPress={() => alert("Cadastro ainda não criado")}
+  >
+    <Ionicons name="person-add-outline" size={28} color="#2563eb" />
+    <Text>Cadastro</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={styles.action}
+    onPress={() => router.push("/main/financeiro")}
+  >
+    <Ionicons name="logo-usd" size={28} color="#2563eb" />
+    <Text>Financeiro</Text>
+  </TouchableOpacity>
+
+</View>
       </ScrollView>
 
       {/* RODAPÉ */}
