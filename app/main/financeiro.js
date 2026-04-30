@@ -155,22 +155,22 @@ export default function Financeiro() {
 
       {/* RODAPÉ */}
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => router.push("/main")}>
-          <Ionicons name="home-outline" size={24} color="#9ca3af" />
-        </TouchableOpacity>
+  <TouchableOpacity onPress={() => router.replace("/main")}>
+    <Ionicons name="home-outline" size={24} color="#2563eb" />
+  </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/main/agenda")}>
-          <Ionicons name="calendar-outline" size={24} color="#9ca3af" />
-        </TouchableOpacity>
+  <TouchableOpacity onPress={() => router.replace("/main/agenda")}>
+    <Ionicons name="calendar-outline" size={24} color="#9ca3af" />
+  </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/main/pacientes")}>
-          <Ionicons name="people-outline" size={24} color="#9ca3af" />
-        </TouchableOpacity>
+  <TouchableOpacity onPress={() => alert("Pacientes ainda não criado")}>
+    <Ionicons name="people-outline" size={24} color="#9ca3af" />
+  </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/main/financeiro")}>
-          <Ionicons name="logo-usd" size={24} color="#2563eb" />
-        </TouchableOpacity>
-      </View>
+  <TouchableOpacity onPress={() => router.replace("/main/financeiro")}>
+    <Ionicons name="logo-usd" size={24} color="#9ca3af" />
+  </TouchableOpacity>
+</View>
 
     </SafeAreaView>
   );

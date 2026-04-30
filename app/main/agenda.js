@@ -63,41 +63,67 @@ export default function Agenda() {
           />
 
           <View style={styles.menu}>
-            <TouchableOpacity style={styles.menuItemRow}>
-              <Ionicons name="home-outline" size={20} color="#fff" />
-              <Text style={styles.menuItem}>Home</Text>
-            </TouchableOpacity>
 
-            <TouchableOpacity style={styles.menuItemRow}>
-              <Ionicons name="calendar-outline" size={20} color="#fff" />
-              <Text style={styles.menuItem}>Agenda</Text>
-            </TouchableOpacity>
+  <TouchableOpacity
+    style={styles.menuItemRow}
+    onPress={() => {
+      setMenuOpen(false);
+      router.replace("/main");
+    }}
+  >
+    <Ionicons name="home-outline" size={20} color="#fff" />
+    <Text style={styles.menuItem}>Home</Text>
+  </TouchableOpacity>
 
-            <TouchableOpacity style={styles.menuItemRow}>
-              <Ionicons name="people-outline" size={20} color="#fff" />
-              <Text style={styles.menuItem}>Pacientes</Text>
-            </TouchableOpacity>
+  <TouchableOpacity
+    style={styles.menuItemRow}
+    onPress={() => {
+      setMenuOpen(false);
+      router.replace("/main/agenda");
+    }}
+  >
+    <Ionicons name="calendar-outline" size={20} color="#fff" />
+    <Text style={styles.menuItem}>Agenda</Text>
+  </TouchableOpacity>
 
-            <TouchableOpacity style={styles.menuItemRow}>
-              <Ionicons name="logo-usd" size={20} color="#fff" />
-              <Text style={styles.menuItem}>Financeiro</Text>
-            </TouchableOpacity>
+  <TouchableOpacity
+    style={styles.menuItemRow}
+    onPress={() => {
+      setMenuOpen(false);
+      router.replace("/main/pacientes");
+    }}
+  >
+    <Ionicons name="people-outline" size={20} color="#fff" />
+    <Text style={styles.menuItem}>Pacientes</Text>
+  </TouchableOpacity>
 
-            <View style={{ marginTop: 40 }} />
+  <TouchableOpacity
+    style={styles.menuItemRow}
+    onPress={() => {
+      setMenuOpen(false);
+      router.replace("/main/financeiro");
+    }}
+  >
+    <Ionicons name="logo-usd" size={20} color="#fff" />
+    <Text style={styles.menuItem}>Financeiro</Text>
+  </TouchableOpacity>
 
-            <TouchableOpacity
-                style={styles.menuItemRow}
-                onPress={async () => {
-                    setMenuOpen(false);
-                    await handleLogout();
-  }}
->
-  <Ionicons name="log-out-outline" size={20} color="#ff4d4d" />
-  <Text style={[styles.menuItem, { color: "#ff4d4d" }]}>
-    Sair
-  </Text>
-</TouchableOpacity>
-          </View>
+  <View style={{ marginTop: 40 }} />
+
+  <TouchableOpacity
+    style={styles.menuItemRow}
+    onPress={async () => {
+      setMenuOpen(false);
+      await handleLogout();
+    }}
+  >
+    <Ionicons name="log-out-outline" size={20} color="#ff4d4d" />
+    <Text style={[styles.menuItem, { color: "#ff4d4d" }]}>
+      Sair
+    </Text>
+  </TouchableOpacity>
+
+</View>
         </>
       )}
 

@@ -32,68 +32,78 @@ export default function Dashboard() {
 
       {/* MENU */}
       {menuOpen && (
-        <>
-          <TouchableOpacity
-            style={styles.overlay}
-            onPress={() => setMenuOpen(false)}
-          />
+  <>
+    <TouchableOpacity
+      style={styles.overlay}
+      onPress={() => setMenuOpen(false)}
+    />
 
-          <View style={styles.menu}>
-            <TouchableOpacity
-              style={styles.menuItemRow}
-              onPress={() => {
-                setMenuOpen(false);
-                router.push("/main");
-              }}
-            >
-              <Ionicons name="home-outline" size={20} color="#fff" />
-              <Text style={styles.menuItem}>Home</Text>
-            </TouchableOpacity>
+    <View style={styles.menu}>
 
-            <TouchableOpacity
-              style={styles.menuItemRow}
-              onPress={() => {
-                setMenuOpen(false);
-                router.push("/main/agenda");
-              }}>
-                
-              </TouchableOpacity>
+      {/* HOME */}
+      <TouchableOpacity
+        style={styles.menuItemRow}
+        onPress={() => {
+          setMenuOpen(false);
+          router.push("/main");
+        }}
+      >
+        <Ionicons name="home-outline" size={20} color="#fff" />
+        <Text style={styles.menuItem}>Home</Text>
+      </TouchableOpacity>
 
-               <TouchableOpacity
-              style={styles.menuItemRow}
-              onPress={() => {
-                setMenuOpen(false);
-                router.push("/main/financeiro");
-              }}
-            >
-              <Ionicons name="calendar-outline" size={20} color="#fff" />
-              <Text style={styles.menuItem}>Agenda</Text>
-            </TouchableOpacity>
+      {/* AGENDA */}
+      <TouchableOpacity
+        style={styles.menuItemRow}
+        onPress={() => {
+          setMenuOpen(false);
+          router.push("/main/agenda");
+        }}
+      >
+        <Ionicons name="calendar-outline" size={20} color="#fff" />
+        <Text style={styles.menuItem}>Agenda</Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity style={styles.menuItemRow}>
-              <Ionicons name="people-outline" size={20} color="#fff" />
-              <Text style={styles.menuItem}>Pacientes</Text>
-            </TouchableOpacity>
+      {/* FINANCEIRO */}
+      <TouchableOpacity
+        style={styles.menuItemRow}
+        onPress={() => {
+          setMenuOpen(false);
+          router.push("/main/financeiro");
+        }}
+      >
+        <Ionicons name="logo-usd" size={20} color="#fff" />
+        <Text style={styles.menuItem}>Financeiro</Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity style={styles.menuItemRow}>
-              <Ionicons name="logo-usd" size={20} color="#fff" />
-              <Text style={styles.menuItem}>Financeiro</Text>
-            </TouchableOpacity>
+      {/* PACIENTES */}
+      <TouchableOpacity
+        style={styles.menuItemRow}
+        onPress={() => alert("Pacientes ainda não criado")}
+      >
+        <Ionicons name="people-outline" size={20} color="#fff" />
+        <Text style={styles.menuItem}>Pacientes</Text>
+      </TouchableOpacity>
 
-            <View style={{ marginTop: 40 }} />
+      <View style={{ marginTop: 40 }} />
 
-            <TouchableOpacity
-              style={styles.menuItemRow}
-              onPress={handleLogout}
-            >
-              <Ionicons name="log-out-outline" size={20} color="#ff4d4d" />
-              <Text style={[styles.menuItem, { color: "#ff4d4d" }]}>
-                Sair
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
+      {/* SAIR */}
+      <TouchableOpacity
+        style={styles.menuItemRow}
+        onPress={async () => {
+          setMenuOpen(false);
+          await handleLogout();
+        }}
+      >
+        <Ionicons name="log-out-outline" size={20} color="#ff4d4d" />
+        <Text style={[styles.menuItem, { color: "#ff4d4d" }]}>
+          Sair
+        </Text>
+      </TouchableOpacity>
+
+    </View>
+  </>
+)}
 
       {/* HEADER */}
       <View style={styles.header}>
@@ -184,19 +194,24 @@ export default function Dashboard() {
 
       {/* RODAPÉ */}
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => router.push("/main")}>
-          <Ionicons name="home-outline" size={24} color="#2563eb" />
-        </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/main/agenda")}>
-          <Ionicons name="calendar-outline" size={24} color="#9ca3af" />
-        </TouchableOpacity>
+  <TouchableOpacity onPress={() => router.replace("/main")}>
+    <Ionicons name="home-outline" size={24} color="#2563eb" />
+  </TouchableOpacity>
 
-        <Ionicons name="people-outline" size={24} color="#9ca3af" />
-        <Ionicons name="logo-usd" size={24} color="#9ca3af" />
+  <TouchableOpacity onPress={() => router.replace("/main/agenda")}>
+    <Ionicons name="calendar-outline" size={24} color="#9ca3af" />
+  </TouchableOpacity>
 
-        
-      </View>
+  <TouchableOpacity onPress={() => alert("Pacientes ainda não criado")}>
+    <Ionicons name="people-outline" size={24} color="#9ca3af" />
+  </TouchableOpacity>
+
+  <TouchableOpacity onPress={() => router.replace("/main/financeiro")}>
+    <Ionicons name="logo-usd" size={24} color="#9ca3af" />
+  </TouchableOpacity>
+
+</View>
     </SafeAreaView>
   );
 }
